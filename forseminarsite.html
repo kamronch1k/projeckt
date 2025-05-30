@@ -1,0 +1,2665 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Strawberry UPdate - Супермаркет премиум-класса</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* CSS Variables */
+    :root {
+      --primary-color: #e74c3c;
+      --secondary-color: #2ECC71;
+      --dark-color: #333;
+      --light-color: #f9f9f9;
+      --gray-color: #eee;
+      --danger-color: #ff4757;
+      --warning-color: #ffa502;
+      --info-color: #1e90ff;
+      --border-radius: 10px;
+      --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+
+    /* Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--light-color);
+      color: var(--dark-color);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    button, input, textarea {
+      font-family: inherit;
+      outline: none;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .section {
+      padding: 60px 0;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 70px;
+      height: 4px;
+      background: var(--primary-color);
+    }
+
+    /* Header */
+    .header {
+      background-color: #fff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      padding: 15px 0;
+      transition: var(--transition);
+    }
+
+    .header.scrolled {
+      padding: 10px 0;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      display: flex;
+      align-items: center;
+    }
+
+    .logo i {
+      margin-right: 10px;
+      color: var(--secondary-color);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-list {
+      display: flex;
+    }
+
+    .nav-item {
+      margin-left: 30px;
+      position: relative;
+    }
+
+    .nav-link {
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: var(--transition);
+      padding: 5px 0;
+      position: relative;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary-color);
+      transition: var(--transition);
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .cart-btn {
+      background: none;
+      border: none;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .cart-btn:hover {
+      color: var(--secondary-color);
+    }
+
+    .cart-count {
+      background: var(--secondary-color);
+      color: white;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.8rem;
+      margin-left: 5px;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      cursor: pointer;
+    }
+
+    /* Hero Section */
+    .hero {
+      height: 600px;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 50px;
+    }
+
+    .hero-slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 1s ease;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .hero-slide.active {
+      opacity: 1;
+    }
+
+    .hero-content {
+      position: absolute;
+      top: 50%;
+      left: 10%;
+      transform: translateY(-50%);
+      max-width: 500px;
+      color: white;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    .hero-title {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      animation: slideInLeft 0.5s ease;
+    }
+
+    .hero-text {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      animation: slideInLeft 0.7s ease;
+    }
+
+    .hero-btn {
+      display: inline-block;
+      background: var(--primary-color);
+      color: white;
+      padding: 12px 30px;
+      border-radius: 30px;
+      font-weight: 600;
+      transition: var(--transition);
+      animation: slideInLeft 0.9s ease;
+    }
+
+    .hero-btn:hover {
+      background: #c0392b;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .hero-dots {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+    }
+
+    .hero-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      margin: 0 5px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .hero-dot.active {
+      background: white;
+      transform: scale(1.2);
+    }
+
+    /* Features Section */
+    .features {
+      background: white;
+      padding: 80px 0;
+    }
+
+    .features-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+
+    .feature-card {
+      text-align: center;
+      padding: 30px 20px;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+      background: var(--light-color);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--box-shadow);
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      color: var(--primary-color);
+      margin-bottom: 20px;
+    }
+
+    .feature-title {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+    }
+
+    .feature-text {
+      color: #666;
+    }
+
+    /* Products Section */
+    .products-section {
+      background: var(--light-color);
+    }
+
+    .filter-btns {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 40px;
+      gap: 10px;
+    }
+
+    .filter-btn {
+      padding: 10px 25px;
+      border-radius: 30px;
+      border: none;
+      background: white;
+      color: var(--dark-color);
+      font-weight: 600;
+      transition: var(--transition);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+
+    .filter-btn.active {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    .filter-btn:hover:not(.active) {
+      background: var(--gray-color);
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      transition: var(--transition);
+      position: relative;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .product-card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--box-shadow);
+    }
+
+    .product-badge {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: var(--primary-color);
+      color: white;
+      padding: 5px 15px;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      z-index: 1;
+    }
+
+    .product-badge.new {
+      background: var(--secondary-color);
+    }
+
+    .product-badge.sale {
+      background: var(--danger-color);
+    }
+
+    .product-badge.hot {
+      background: var(--warning-color);
+    }
+
+    .product-img {
+      height: 250px;
+      width: 100%;
+      object-fit: cover;
+      transition: var(--transition);
+    }
+
+    .product-content {
+      padding: 20px;
+    }
+
+    .product-category {
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+    }
+
+    .product-title {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .product-rating {
+      color: var(--warning-color);
+      margin-bottom: 15px;
+      font-size: 0.9rem;
+    }
+
+    .product-price {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .current-price {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary-color);
+    }
+
+    .old-price {
+      font-size: 1rem;
+      color: #999;
+      text-decoration: line-through;
+      margin-left: 10px;
+    }
+
+    .product-btn {
+      width: 100%;
+      padding: 12px;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-weight: 600;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .product-btn i {
+      margin-right: 8px;
+    }
+
+    .product-btn:hover {
+      background: #c0392b;
+    }
+
+    .product-btn.added {
+      background: var(--secondary-color);
+    }
+
+    /* Cart Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .cart-modal {
+      background: white;
+      border-radius: var(--border-radius);
+      width: 90%;
+      max-width: 800px;
+      max-height: 80vh;
+      overflow-y: auto;
+      transform: translateY(-50px);
+      transition: var(--transition);
+      padding: 30px;
+    }
+
+    .modal-overlay.active .cart-modal {
+      transform: translateY(0);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--gray-color);
+    }
+
+    .modal-title {
+      font-size: 1.8rem;
+      color: var(--dark-color);
+    }
+
+    .close-modal {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: #666;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .close-modal:hover {
+      color: var(--danger-color);
+      transform: rotate(90deg);
+    }
+
+    .cart-items {
+      margin-bottom: 30px;
+    }
+
+    .cart-item {
+      display: grid;
+      grid-template-columns: 100px 1fr 120px 100px 30px;
+      gap: 20px;
+      align-items: center;
+      padding: 15px 0;
+      border-bottom: 1px solid var(--gray-color);
+    }
+
+    .cart-item-img {
+      width: 100%;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+
+    .cart-item-name {
+      font-weight: 600;
+    }
+
+    .cart-item-price {
+      font-weight: 700;
+      color: var(--primary-color);
+    }
+
+    .cart-item-quantity {
+      display: flex;
+      align-items: center;
+    }
+
+    .quantity-btn {
+      width: 30px;
+      height: 30px;
+      border: 1px solid var(--gray-color);
+      background: none;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .quantity-input {
+      width: 40px;
+      height: 30px;
+      text-align: center;
+      border: 1px solid var(--gray-color);
+      border-left: none;
+      border-right: none;
+    }
+
+    .remove-item {
+      background: none;
+      border: none;
+      color: #666;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .remove-item:hover {
+      color: var(--danger-color);
+    }
+
+    .cart-footer {
+      border-top: 1px solid var(--gray-color);
+      padding-top: 20px;
+    }
+
+    .cart-total {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 30px;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    .cart-btns {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .cart-btn {
+      padding: 12px 25px;
+      border-radius: 5px;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    .btn-outline {
+      border: 2px solid var(--dark-color);
+      background: none;
+      color: var(--dark-color);
+    }
+
+    .btn-outline:hover {
+      background: var(--dark-color);
+      color: white;
+    }
+
+    .btn-primary {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background: #c0392b;
+    }
+
+    .empty-cart {
+      text-align: center;
+      padding: 50px 0;
+    }
+
+    .empty-cart i {
+      font-size: 5rem;
+      color: var(--gray-color);
+      margin-bottom: 20px;
+    }
+
+    .empty-cart p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+    }
+
+    /* Testimonials */
+    .testimonials {
+      background: white;
+    }
+
+    .testimonials-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .testimonial-card {
+      background: var(--light-color);
+      padding: 30px;
+      border-radius: var(--border-radius);
+      position: relative;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .testimonial-text {
+      font-style: italic;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .testimonial-text::before {
+      content: '"';
+      font-size: 4rem;
+      position: absolute;
+      top: -20px;
+      left: -15px;
+      color: rgba(0, 0, 0, 0.1);
+      font-family: serif;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+    }
+
+    .author-img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 15px;
+    }
+
+    .author-info h4 {
+      font-size: 1.1rem;
+      margin-bottom: 5px;
+    }
+
+    .author-info p {
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    .rating {
+      color: var(--warning-color);
+      margin-top: 5px;
+    }
+
+    /* Newsletter */
+    .newsletter {
+      background: var(--primary-color);
+      color: white;
+      padding: 60px 0;
+      text-align: center;
+    }
+
+    .newsletter-title {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .newsletter-text {
+      max-width: 600px;
+      margin: 0 auto 30px;
+    }
+
+    .newsletter-form {
+      display: flex;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .newsletter-input {
+      flex: 1;
+      padding: 15px;
+      border: none;
+      border-radius: 5px 0 0 5px;
+      font-size: 1rem;
+    }
+
+    .newsletter-btn {
+      padding: 0 30px;
+      background: var(--dark-color);
+      color: white;
+      border: none;
+      border-radius: 0 5px 5px 0;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    .newsletter-btn:hover {
+      background: #222;
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--dark-color);
+      color: white;
+      padding: 60px 0 0;
+    }
+
+    .footer-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .footer-logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: inline-block;
+    }
+
+    .footer-about p {
+      margin-bottom: 20px;
+      color: #bbb;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 15px;
+    }
+
+    .social-link {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .social-link:hover {
+      background: var(--primary-color);
+      transform: translateY(-5px);
+    }
+
+    .footer-title {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .footer-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 40px;
+      height: 2px;
+      background: var(--primary-color);
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-link {
+      color: #bbb;
+      transition: var(--transition);
+      display: inline-block;
+    }
+
+    .footer-link:hover {
+      color: white;
+      transform: translateX(5px);
+    }
+
+    .footer-contact p {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      color: #bbb;
+    }
+
+    .footer-contact i {
+      margin-right: 10px;
+      color: var(--primary-color);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding: 20px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: #bbb;
+      font-size: 0.9rem;
+    }
+
+    /* Animations */
+    @keyframes slideInLeft {
+      from {
+        transform: translateX(-50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .nav-list {
+        position: fixed;
+        top: 80px;
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - 80px);
+        background: white;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+        z-index: 999;
+      }
+
+      .nav-list.active {
+        left: 0;
+      }
+
+      .nav-item {
+        margin: 15px 0;
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      .hero-title {
+        font-size: 2.5rem;
+      }
+
+      .cart-item {
+        grid-template-columns: 80px 1fr;
+        grid-template-rows: repeat(3, auto);
+        gap: 10px;
+      }
+
+      .cart-item-price {
+        grid-column: 1;
+        grid-row: 2;
+      }
+
+      .cart-item-quantity {
+        grid-column: 2;
+        grid-row: 2;
+      }
+
+      .remove-item {
+        grid-column: 2;
+        grid-row: 3;
+        justify-self: end;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .section {
+        padding: 40px 0;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .hero {
+        height: 500px;
+      }
+
+      .hero-content {
+        left: 5%;
+        max-width: 90%;
+      }
+
+      .hero-title {
+        font-size: 2rem;
+      }
+
+      .newsletter-form {
+        flex-direction: column;
+      }
+
+      .newsletter-input {
+        border-radius: 5px;
+        margin-bottom: 10px;
+      }
+
+      .newsletter-btn {
+        border-radius: 5px;
+        padding: 15px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .filter-btns {
+        gap: 5px;
+      }
+
+      .filter-btn {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+      }
+
+      .products-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cart-btns {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .cart-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container header-container">
+      <a href="#" class="logo"><i class="fas fa-store"></i> Strawberry UPdate</a>
+      
+      <nav class="nav">
+        <ul class="nav-list">
+          <li class="nav-item"><a href="#home" class="nav-link">Главная</a></li>
+          <li class="nav-item"><a href="#products" class="nav-link">Продукты</a></li>
+          <li class="nav-item"><a href="#features" class="nav-link">Преимущества</a></li>
+          <li class="nav-item"><a href="#testimonials" class="nav-link">Отзывы</a></li>
+          <li class="nav-item"><a href="#contact" class="nav-link">Контакты</a></li>
+          <li class="nav-item">
+            <button class="cart-btn">
+              Корзина <span class="cart-count">0</span>
+            </button>
+          </li>
+        </ul>
+      </nav>
+      
+      <button class="mobile-menu-btn">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="hero-slide active" style="background-image: url('https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80')">
+      <div class="hero-content">
+        <h1 class="hero-title">Свежие продукты премиум-класса</h1>
+        <p class="hero-text">Только натуральные и экологически чистые продукты с доставкой на дом</p>
+        <a href="#products" class="hero-btn">Купить сейчас</a>
+      </div>
+    </div>
+    
+    <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1518843875459-f738682238a6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1442&q=80')">
+      <div class="hero-content">
+        <h1 class="hero-title">Органические фрукты и овощи</h1>
+        <p class="hero-text">Выращены без химикатов и вредных добавок для вашего здоровья</p>
+        <a href="#products" class="hero-btn">Выбрать продукты</a>
+      </div>
+    </div>
+    
+    <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1606787366850-de6330128bfc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80')">
+      <div class="hero-content">
+        <h1 class="hero-title">Молочные продукты высшего качества</h1>
+        <p class="hero-text">Свежее молоко, сыры и йогурты от проверенных фермеров</p>
+        <a href="#products" class="hero-btn">Посмотреть ассортимент</a>
+      </div>
+    </div>
+    
+    <div class="hero-dots">
+      <div class="hero-dot active"></div>
+      <div class="hero-dot"></div>
+      <div class="hero-dot"></div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="section features" id="features">
+    <div class="container">
+      <h2 class="section-title">Наши преимущества</h2>
+      
+      <div class="features-container">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-leaf"></i>
+          </div>
+          <h3 class="feature-title">Экологически чистые</h3>
+          <p class="feature-text">Все продукты выращены без использования химикатов и вредных добавок</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-truck"></i>
+          </div>
+          <h3 class="feature-title">Быстрая доставка</h3>
+          <p class="feature-text">Доставляем заказы в течение 2 часов по всему городу</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-medal"></i>
+          </div>
+          <h3 class="feature-title">Гарантия качества</h3>
+          <p class="feature-text">Если продукт не понравится - вернем деньги без вопросов</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-headset"></i>
+          </div>
+          <h3 class="feature-title">Поддержка 24/7</h3>
+          <p class="feature-text">Наши операторы всегда готовы помочь с выбором и ответить на вопросы</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products Section -->
+  <section class="section products-section" id="products">
+    <div class="container">
+      <h2 class="section-title">Наши продукты</h2>
+      
+    <!-- В секции продуктов обновляем фильтры -->
+<div class="filter-btns">
+  <button class="filter-btn active" data-category="all">Все</button>
+  <button class="filter-btn" data-category="fruits">Фрукты</button>
+  <button class="filter-btn" data-category="vegetables">Овощи</button>
+  <button class="filter-btn" data-category="dairy">Молочные</button>
+  <button class="filter-btn" data-category="meat">Мясо</button>
+  <button class="filter-btn" data-category="bakery">Выпечка</button>
+  <button class="filter-btn" data-category="drinks">Напитки</button>
+  <button class="filter-btn" data-category="snacks">Снеки</button>
+</div>
+      
+      <div class="products-grid" id="products-container">
+        <!-- Products will be loaded here by JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="section testimonials" id="testimonials">
+    <div class="container">
+      <h2 class="section-title">Отзывы клиентов</h2>
+      
+      <div class="testimonials-container">
+        <div class="testimonial-card">
+          <p class="testimonial-text">Я уже несколько лет покупаю продукты в Strawberry UPdate и всегда получаю только самое свежее и качественное. Особенно люблю их органические овощи!</p>
+          <div class="testimonial-author">
+            <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="Анна" class="author-img">
+            <div class="author-info">
+              <h4>Анна Смирнова</h4>
+              <p>Постоянный клиент</p>
+              <div class="rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="testimonial-card">
+          <p class="testimonial-text">Доставка всегда вовремя, продукты упакованы идеально. Молоко и сыры просто восхитительные, как будто прямо с фермы!</p>
+          <div class="testimonial-author">
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Дмитрий" class="author-img">
+            <div class="author-info">
+              <h4>Дмитрий Иванов</h4>
+              <p>Шеф-повар</p>
+              <div class="rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="testimonial-card">
+          <p class="testimonial-text">Заказываю фрукты для всей семьи каждую неделю. Дети в восторге от клубники и манго. А я ценю их сервис и отношение к клиентам.</p>
+          <div class="testimonial-author">
+            <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Елена" class="author-img">
+            <div class="author-info">
+              <h4>Елена Петрова</h4>
+              <p>Мама двоих детей</p>
+              <div class="rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter Section -->
+  <section class="newsletter">
+    <div class="container">
+      <h2 class="newsletter-title">Подпишитесь на рассылку</h2>
+      <p class="newsletter-text">Получайте эксклюзивные предложения, новости о скидках и полезные рецепты прямо на вашу почту</p>
+      
+      <form class="newsletter-form">
+        <input type="email" class="newsletter-input" placeholder="Ваш email" required>
+        <button type="submit" class="newsletter-btn">Подписаться</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer" id="contact">
+    <div class="container">
+      <div class="footer-container">
+        <div class="footer-about">
+          <a href="#" class="footer-logo">Strawberry UPdate</a>
+          <p>Мы доставляем самые свежие и качественные продукты прямо к вашей двери. Наша миссия - сделать здоровое питание доступным для всех.</p>
+          <div class="social-links">
+            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-links">
+          <h3 class="footer-title">Меню</h3>
+          <ul>
+            <li><a href="#home" class="footer-link">Главная</a></li>
+            <li><a href="#products" class="footer-link">Продукты</a></li>
+            <li><a href="#features" class="footer-link">Преимущества</a></li>
+            <li><a href="#testimonials" class="footer-link">Отзывы</a></li>
+            <li><a href="#" class="footer-link">О нас</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links">
+          <h3 class="footer-title">Категории</h3>
+          <ul>
+            <li><a href="#" class="footer-link">Фрукты</a></li>
+            <li><a href="#" class="footer-link">Овощи</a></li>
+            <li><a href="#" class="footer-link">Молочные продукты</a></li>
+            <li><a href="#" class="footer-link">Мясо и птица</a></li>
+            <li><a href="#" class="footer-link">Выпечка</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-contact">
+          <h3 class="footer-title">Контакты</h3>
+          <p><i class="fas fa-map-marker-alt"></i> Ул. Примерная, 123, Ташкент</p>
+          <p><i class="fas fa-phone"></i> +998 90 123 45 67</p>
+          <p><i class="fas fa-envelope"></i> info@strawberry.uz</p>
+          <p><i class="fas fa-clock"></i> Пн-Пт: 8:00 - 20:00</p>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2025 Strawberry UPdate. Все права защищены.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Cart Modal -->
+  <div class="modal-overlay" id="cart-modal">
+    <div class="cart-modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Ваша корзина</h3>
+        <button class="close-modal">&times;</button>
+      </div>
+      
+      <div class="cart-items" id="cart-items">
+        <!-- Cart items will be loaded here -->
+      </div>
+      
+      <div class="cart-footer">
+        <div class="cart-total">
+          <span>Итого:</span>
+          <span id="total-price">0 сум</span>
+        </div>
+        
+        <div class="cart-btns">
+          <button class="cart-btn btn-outline">Продолжить покупки</button>
+          <button class="cart-btn btn-primary" id="checkout-btn">Оформить заказ</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+// DOM Elements остаются без изменений
+const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+const navList = document.querySelector('.nav-list');
+const header = document.querySelector('.header');
+const cartBtn = document.querySelector('.cart-btn');
+const cartModal = document.getElementById('cart-modal');
+const closeModal = document.querySelector('.close-modal');
+const continueShoppingBtn = document.querySelector('.btn-outline');
+const checkoutBtn = document.getElementById('checkout-btn');
+const cartCount = document.querySelector('.cart-count');
+const totalPrice = document.getElementById('total-price');
+const cartItemsContainer = document.getElementById('cart-items');
+const productsContainer = document.getElementById('products-container');
+const filterBtns = document.querySelectorAll('.filter-btn');
+const heroSlides = document.querySelectorAll('.hero-slide');
+const heroDots = document.querySelectorAll('.hero-dot');
+const newsletterForm = document.querySelector('.newsletter-form');
+
+// Обновленный массив продуктов с 10 товарами в каждой категории
+const products = [
+  // Фрукты (10 товаров)
+  {
+    id: 1,
+    name: 'Яблоки Голден',
+    price: 18999,
+    category: 'fruits',
+    image: 'https://images.unsplash.com/photo-1568702846914-96b305d2aaeb',
+    badge: 'new',
+    rating: 4.5
+  },
+  {
+    id: 2,
+    name: 'Бананы',
+    price: 22999,
+    category: 'fruits',
+    image: 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e',
+    rating: 4.2
+  },
+  {
+    id: 3,
+    name: 'Апельсины Валенсия',
+    price: 24999,
+    category: 'fruits',
+    image: 'https://images.gastronom.ru/79bcsAhEUFs2rOXBK8xz6pD9mmkHLfpEYCChtj9wN8I/pr:product-cover-image/g:ce/rs:auto:0:0:0/L2Ntcy9hbGwtaW1hZ2VzLzQxNDMwYmQwLThiZmUtNDJkYi04MTdjLTQzYmUzOTRjNWM0OS5qcGc.webp',
+    badge: 'sale',
+    oldPrice: 29999,
+    rating: 4.7
+  },
+  {
+    id: 4,
+    name: 'Клубника',
+    price: 39999,
+    category: 'fruits',
+    image: 'https://images.unsplash.com/photo-1587393855524-087f83d95bc9',
+    badge: 'new',
+    rating: 4.9
+  },
+  {
+    id: 5,
+    name: 'Груши Конференция',
+    price: 27999,
+    category: 'fruits',
+    image: 'https://img.championat.com/i/j/s/1728047198920530979.jpg',
+    rating: 4.6
+  },
+  {
+    id: 6,
+    name: 'Виноград Кишмиш',
+    price: 45999,
+    category: 'fruits',
+    image: 'https://images.gastronom.ru/r1rE8y22xWjoQjFg6CEA2J3UfTDjl9AuegG1fCmdvDc/pr:product-cover-image/g:ce/rs:auto:0:0:0/L2Ntcy9hbGwtaW1hZ2VzLzc4NDA2YTBlLTdiZWMtNDM0Mi04ZDBkLWI3NDYwYjU3NzYxMi5qcGc.webp',
+    badge: 'hot',
+    rating: 4.8
+  },
+  {
+    id: 7,
+    name: 'Персики',
+    price: 34999,
+    category: 'fruits',
+    image: 'https://images.gastronom.ru/QGccEPgjxp2atmTcxNsJrmw5J_R4WcxLZV8ZyKR9Q1g/pr:product-cover-image/g:ce/rs:auto:0:0:0/L2Ntcy9hbGwtaW1hZ2VzL2YyMDU0MmYzLWYzZmMtNDU4Mi1hYWFjLWUwODJmYTNhZWZlMS5qcGc.webp',
+    rating: 4.4
+  },
+  {
+    id: 8,
+    name: 'Манго',
+    price: 52999,
+    category: 'fruits',
+    image: 'https://produktoff.kz/pictures/product/big/6982_big.jpg',
+    badge: 'new',
+    rating: 4.7
+  },
+  {
+    id: 9,
+    name: 'Киви',
+    price: 21999,
+    category: 'fruits',
+    image: 'https://edadeal.ru/journal/230928-the-benefits-of-kiwi/polza-kivi-chto-nuzhno-znat-o-pushistoj-yagode_hub645b9ee15322d8ef63477ab75337916_405082_1200x1200_fill_lanczos_smart1_3.png',
+    rating: 4.3
+  },
+  {
+    id: 10,
+    name: 'Ананас',
+    price: 48999,
+    category: 'fruits',
+    image: 'https://api.lochin.uz/media/file/image/2020-12/469969e0-5ced-4176-9c1d-fa48e59515a6.jpg.500x500_q85_crop-scale.jpg',
+    rating: 4.5
+  },
+
+  // Овощи (10 товаров)
+  {
+    id: 11,
+    name: 'Помидоры Черри',
+    price: 34999,
+    category: 'vegetables',
+    image: 'https://images.unsplash.com/photo-1518977822534-7049a61ee0c2',
+    rating: 4.8
+  },
+  {
+    id: 12,
+    name: 'Огурцы тепличные',
+    price: 15999,
+    category: 'vegetables',
+    image: 'https://images.gastronom.ru/CZDbvTdnXgS98moVD4I3nsWWWHApCAWH6a59sQaGnFo/pr:product-cover-image/g:ce/rs:auto:0:0:0/L2Ntcy9hbGwtaW1hZ2VzL2QyYmE3ZDhhLTA3OGItNGJjZS05OWE1LTk2MTRhY2RlMDdhNi5qcGc.webp',
+    rating: 4.3
+  },
+  {
+    id: 13,
+    name: 'Морковь',
+    price: 11999,
+    category: 'vegetables',
+    image: 'https://images.unsplash.com/photo-1447175008436-054170c2e979',
+    rating: 4.2
+  },
+  {
+    id: 14,
+    name: 'Картофель молодой',
+    price: 12999,
+    category: 'vegetables',
+    image: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655',
+    rating: 4.1
+  },
+  {
+    id: 15,
+    name: 'Лук репчатый',
+    price: 8999,
+    category: 'vegetables',
+    image: 'https://dostavo4ka.uz/upload-file/2021/05/05/4362/750x750-a032de4a-79ae-44c6-841c-feabdc16c9d7.jpg',
+    rating: 4.0
+  },
+  {
+    id: 16,
+    name: 'Болгарский перец',
+    price: 27999,
+    category: 'vegetables',
+    image: 'https://dostavo4ka.uz/upload-file/2021/05/05/276/9e3b7089-3194-4513-a443-b85019fb68cf.jpg',
+    badge: 'sale',
+    oldPrice: 32999,
+    rating: 4.5
+  },
+  {
+    id: 17,
+    name: 'Баклажаны',
+    price: 23999,
+    category: 'vegetables',
+    image: 'https://здоровое-питание.рф/upload/iblock/4a5/cagp6y2hemd736avjuly7q0cprqwyzuc/zagruzhennoe-_-2023_07_11T143143.881.jpg',
+    rating: 4.3
+  },
+  {
+    id: 18,
+    name: 'Кабачки',
+    price: 18999,
+    category: 'vegetables',
+    image: 'https://dostavo4ka.uz/upload-file/2021/05/05/3449/750x750-fbfbad65-77f3-4993-86a3-215b5f15f879.jpg',
+    rating: 4.2
+  },
+  {
+    id: 19,
+    name: 'Тыква',
+    price: 14999,
+    category: 'vegetables',
+    image: 'https://s1.eda.ru/StaticContent/Photos/120131085121/120327135548/p_O.jpg',
+    rating: 4.4
+  },
+  {
+    id: 20,
+    name: 'Чеснок',
+    price: 17999,
+    category: 'vegetables',
+    image: 'https://shop.tegen.uz/wp-content/uploads/2021/04/1000029071.jpg',
+    rating: 4.6
+  },
+
+  // Молочные продукты (10 товаров)
+  {
+    id: 21,
+    name: 'Молоко 3.2% 1л',
+    price: 12999,
+    category: 'dairy',
+    image: 'https://www.papirus.com.ua/img/goods/275675.jpg',
+    rating: 4.6
+  },
+  {
+    id: 22,
+    name: 'Сыр Гауда',
+    price: 58999,
+    category: 'dairy',
+    image: 'https://alaybazar.uz/upload/resize_cache/iblock/68f/500_500_2/4gs6wohb2xzelcy1llldv0n6dwq825rh.jpg',
+    badge: 'hot',
+    rating: 4.9
+  },
+  {
+    id: 23,
+    name: 'Йогурт натуральный',
+    price: 14999,
+    category: 'dairy',
+    image: 'https://static.sello.uz/unsafe/x500/https://static.sello.uz/fm/20220602/c7a854e3-17fb-44ce-a9da-6caa11197b48.JPEG',
+    rating: 4.5
+  },
+  {
+    id: 24,
+    name: 'Сметана 20%',
+    price: 12999,
+    category: 'dairy',
+    image: 'https://dostavo4ka.uz/upload-file/2021/05/05/2635/750x750-bf454fad-d004-4bec-82bd-256c60c90ddc.jpg',
+    rating: 4.4
+  },
+  {
+    id: 25,
+    name: 'Творог 5%',
+    price: 21999,
+    category: 'dairy',
+    image: 'https://st18.stpulscen.ru/images/product/549/176/132_original.jpg',
+    rating: 4.3
+  },
+  {
+    id: 26,
+    name: 'Кефир 2.5%',
+    price: 11999,
+    category: 'dairy',
+    image: 'https://api.lochin.uz/media/file/image/2024-04/662c19f7-375c-421d-9799-8ce742252271.jpg.500x500_q85_crop-scale.jpg',
+    rating: 4.2
+  },
+  {
+    id: 27,
+    name: 'Сливочное масло',
+    price: 34999,
+    category: 'dairy',
+    image: 'https://lh5.googleusercontent.com/proxy/SPKnFKOehTNiF4FYtGCkx_7siVj9_XEsG7D4RChwccJMFi8RRQu0Jw9-GiNdi09BGC6fhDRhSHEqzp9Ex-7YIcIP88KYDebygvKm8G1GcltCN4qkU7h1cHshDXR-2vHaMA40WXKO0QWo59mbDOZInKbfjrLD4CJOXwty7CVxqouCD16JRsff--M3X1sPNf5vUGJyGyk',
+    badge: 'sale',
+    oldPrice: 39999,
+    rating: 4.7
+  },
+  {
+    id: 28,
+    name: 'Ряженка',
+    price: 10999,
+    category: 'dairy',
+    image: 'https://cdn1.ozone.ru/s3/multimedia-o/6575070864.jpg',
+    rating: 4.1
+  },
+  {
+    id: 29,
+    name: 'Сыр Моцарелла',
+    price: 45999,
+    category: 'dairy',
+    image: 'https://i0.wp.com/delicatessen.uz/wp-content/uploads/2024/07/syr-milton-mozzarella-140-g-1.jpg?fit=600%2C600&ssl=1',
+    rating: 4.8
+  },
+  {
+    id: 30,
+    name: 'Творожный сыр',
+    price: 24999,
+    category: 'dairy',
+    image: 'https://shop.tegen.uz/wp-content/uploads/2021/09/imgonline-com-ua-Resize-ovcReR3hsSGxrAm.jpg',
+    rating: 4.5
+  },
+
+  // Мясо (10 товаров)
+  {
+    id: 31,
+    name: 'Говяжья вырезка',
+    price: 98999,
+    category: 'meat',
+    image: 'https://alphameat.ru/images/govyadina-virezka.jpg?crc=3976757555',
+    rating: 4.7
+  },
+  {
+    id: 32,
+    name: 'Куриное филе',
+    price: 45999,
+    category: 'meat',
+    image: 'https://images.gastronom.ru/YGewgwNU0MJVe6wCo6YIKuHH0btGEOSIwIGZn_yibf0/pr:article-preview-image/g:ce/rs:auto:0:0:0/L2Ntcy9hbGwtaW1hZ2VzLzZhYzRmYWFhLWY4M2UtNDNmZS04OTQzLWMzZjI5NmY3MDU4Mi5qcGc',
+    badge: 'sale',
+    oldPrice: 52999,
+    rating: 4.5
+  },
+  {
+    id: 33,
+    name: 'Свиная шея',
+    price: 68999,
+    category: 'meat',
+    image: 'https://cdn.food.ru/unsigned/fit/640/480/ce/0/czM6Ly9tZWRpYS9waWN0dXJlcy9wcm9kdWN0cy8zMjIvY292ZXJzL2dQZ1NrQy5qcGc.jpg',
+    rating: 4.4
+  },
+  {
+    id: 34,
+    name: 'Фарш говяжий',
+    price: 74999,
+    category: 'meat',
+    image: 'https://ir.ozone.ru/s3/multimedia-1-s/c1000/7044549184.jpg',
+    rating: 4.3
+  },
+  {
+    id: 35,
+    name: 'Индейка бедро',
+    price: 52999,
+    category: 'meat',
+    image: 'https://cdn1.ozone.ru/s3/multimedia-e/c600/6789989270.jpg',
+    rating: 4.6
+  },
+  {
+    id: 36,
+    name: 'Баранина',
+    price: 89999,
+    category: 'meat',
+    image: 'https://www.man-meat.ru/upload/iblock/1bf/Rack_of_lamb_02_Comp.jpg',
+    badge: 'new',
+    rating: 4.7
+  },
+  {
+    id: 37,
+    name: 'Куриные крылья',
+    price: 38999,
+    category: 'meat',
+    image: 'https://pticaopt.ru/image/cache/catalog/image/myaso/kurica/krilo%20zoloto-900x675.jpg',
+    rating: 4.2
+  },
+  {
+    id: 39,
+    name: 'Свиные ребрышки',
+    price: 65999,
+    category: 'meat',
+    image: 'https://ryboedov.ru/upload/resize_cache/iblock/c3d/1000_1000_1/7snka0i383lwf1kexvoffg893w4a5oj8.jpg',
+    badge: 'hot',
+    rating: 4.6
+  },
+  {
+    id: 40,
+    name: 'Куриные окорочка',
+    price: 42999,
+    category: 'meat',
+    image: 'https://orzon.uz/upload/resize_cache/iblock/51c/600_600_1f086e50fe11d3debcf077fa5d26d9a88/51ce3a2fde09756f62bd136a18cac6b3.jpg',
+    rating: 4.3
+  },
+
+  // Выпечка (10 товаров)
+  {
+    id: 41,
+    name: 'Хлеб Бородинский',
+    price: 8999,
+    category: 'bakery',
+    image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff',
+    rating: 4.4
+  },
+  {
+    id: 42,
+    name: 'Батон нарезной',
+    price: 7999,
+    category: 'bakery',
+    image: 'https://lh5.googleusercontent.com/proxy/8XulTcXi66z_k_TuFRh9qszlOTzWH3Q2eF5-Ql1VC4WL5VQlti7Z6gf9cs68D2GGPtCaiXEaijXX3A',
+    rating: 4.2
+  },
+  {
+    id: 43,
+    name: 'Булочки сдобные',
+    price: 5999,
+    category: 'bakery',
+    image: 'https://nur-sultan.instashop.kz/upload/resize_cache/iblock/dc9/476_342_1/dc96a2504aea2b31aae5ce33afffb86b.png',
+    badge: 'new',
+    rating: 4.5
+  },
+  {
+    id: 44,
+    name: 'Хлеб цельнозерновой',
+    price: 10999,
+    category: 'bakery',
+    image: 'https://lh5.googleusercontent.com/proxy/iCtvGHlaAnJrJe0Nyc4ybH69oIqWgqOuTPyo1GwrjUGt49mJjqDe9RG_mgzShnxv2Y79QlF5Gd2yPwVDOue8gb5ZgvZ9FttSHK5PCQ8LlCOsQzoq69M5j6LxudkJOALjUAsMGKQuri14_A',
+    rating: 4.6
+  },
+  {
+    id: 45,
+    name: 'Багет французский',
+    price: 11999,
+    category: 'bakery',
+    image: 'https://cdn.azbyka.ru/recept/wp-content/uploads/2020/10/slice-of-bread-with-baguette-on-tablecloth-1.jpg',
+    rating: 4.3
+  },
+  {
+    id: 46,
+    name: 'Пирожок с вишней',
+    price: 6999,
+    category: 'bakery',
+    image: 'https://ist.say7.info/img0002/26/226_0163y9b_1103_1024.jpg',
+    badge: 'sale',
+    oldPrice: 8999,
+    rating: 4.4
+  },
+  {
+    id: 47,
+    name: 'Круассан',
+    price: 12999,
+    category: 'bakery',
+    image: 'https://safiabakery.uz/uploads/products/362_1729602602.jpg',
+    rating: 4.7
+  },
+  {
+    id: 48,
+    name: 'Пончики',
+    price: 14999,
+    category: 'bakery',
+    image: 'https://the-challenger.ru/wp-content/uploads/2017/06/shutterstock_557338165-800x533.jpg',
+    badge: 'hot',
+    rating: 4.8
+  },
+  {
+    id: 49,
+    name: 'Пирог яблочный',
+    price: 24999,
+    category: 'bakery',
+    image: 'https://zira.uz/wp-content/uploads/2018/06/yablochniy-pirog-1.jpg',
+    rating: 4.6
+  },
+  {
+    id: 50,
+    name: 'Хлебцы ржаные',
+    price: 8999,
+    category: 'bakery',
+    image: 'https://cdn.metro-cc.ru/ru/ru_pim_274742001001_01.png',
+    rating: 4.2
+  },
+
+  // Напитки (10 товаров)
+  {
+    id: 51,
+    name: 'Кока-Кола 1л',
+    price: 14999,
+    category: 'drinks',
+    image: 'https://armavir.crazybrothers.ru/wp-content/uploads/Kola-025-700x467.jpg',
+    rating: 4.8
+  },
+  {
+    id: 52,
+    name: 'Pepsi 1л',
+    price: 13999,
+    category: 'drinks',
+    image: 'https://dostavo4ka.uz/upload-file/2021/07/01/6222/e67fdad5-0604-41bf-8e41-0a514960f1d5.jpg',
+    badge: 'new',
+    rating: 4.7
+  },
+  {
+    id: 53,
+    name: 'Fanta 1л',
+    price: 13999,
+    category: 'drinks',
+    image: 'https://static.sello.uz/unsafe/x1600/https://static.sello.uz//fm/20240129/61b624a86e7b69d51d125fb187aad6c2.jpg',
+    rating: 4.6
+  },
+  {
+    id: 54,
+    name: 'Sprite 1л',
+    price: 13999,
+    category: 'drinks',
+    image: 'https://images.uzum.uz/ceimnn8v1htd23ajfnbg/original.jpg',
+    rating: 4.5
+  },
+  {
+    id: 55,
+    name: 'Сок апельсиновый 1л',
+    price: 19999,
+    category: 'drinks',
+    image: 'https://dostavo4ka.uz/upload-file/2021/05/05/5887/750x750-cac5499d-1d6e-45a6-b48a-789a71fd48fc.jpg',
+    badge: 'sale',
+    oldPrice: 22999,
+    rating: 4.7
+  },
+  {
+    id: 56,
+    name: 'Вода минеральная 1л',
+    price: 6999,
+    category: 'drinks',
+    image: 'https://files.ox-sys.com/cache/original/image/d3/50/92/d35092f9170a49afd8885b502f3736d729daf75027baa4b2b41dcfd6caae6ff6.jpg',
+    rating: 4.3
+  },
+  {
+    id: 57,
+    name: 'Липтон Зеленый',
+    price: 12999,
+    category: 'drinks',
+    image: 'https://images.uzum.uz/cf9s7u0l08k0o9qiit20/original.jpg',
+    rating: 5.5
+  },
+  {
+    id: 58,
+    name: 'Кофе растворимый',
+    price: 34999,
+    category: 'drinks',
+    image: 'https://media.komus.ru/medias/sys_master/root/h68/h3d/12467929317406/1503929-1-800Wx800H.jpg',
+    badge: 'hot',
+    rating: 4.9
+  },
+  {
+    id: 59,
+    name: 'Энергетик',
+    price: 17999,
+    category: 'drinks',
+    image: 'https://images.uzum.uz/cir7shd6sfhndlbqkl70/original.jpg',
+    rating: 4.2
+  },
+  {
+    id: 60,
+    name: 'Лимонад',
+    price: 11999,
+    category: 'drinks',
+    image: 'https://images-foodtech.magnit.ru/sgbh7Dp5lCl6CJlQ1ifNdSkKOPtczRdOiLaxHW7ac38/rs:fit:1600:1600/plain/s3://img-dostavka/uf/24c/24cf92a31a4d62a12fb6d8a1cb5b64ef/71670e7157de17532269b9911b1f0b10.jpeg@webp',
+    rating: 4.5
+  },
+
+  // Снеки (10 товаров)
+  {
+    id: 61,
+    name: 'Чипсы Lays',
+    price: 21999,
+    category: 'snacks',
+    image: 'https://dostavo4ka.uz/upload-file/2021/05/05/4179/d33d644d-cbea-448c-a5a3-ccc97bb2511d.jpg',
+    rating: 4.6
+  },
+  {
+    id: 62,
+    name: 'Чипсы Pringles',
+    price: 25999,
+    category: 'snacks',
+    image: 'https://i0.wp.com/delicatessen.uz/wp-content/uploads/2023/08/chipsy-pringles-original-originalnye-165-g.jpg?fit=1000%2C1000&ssl=1',
+    badge: 'hot',
+    rating: 4.8
+  },
+  {
+    id: 63,
+    name: 'Орехи кешью',
+    price: 34999,
+    category: 'snacks',
+    image: 'https://icdn.lenta.ru/images/2024/08/22/15/20240822154000699/square_1280_d039487f86a90b1cc5f1f8d815943878.jpg',
+    rating: 4.7
+  },
+  {
+    id: 64,
+    name: 'Попкорн',
+    price: 14999,
+    category: 'snacks',
+    image: 'https://images.uzum.uz/ckb67fjk9fq1var6u7d0/original.jpg',
+    badge: 'new',
+    rating: 4.4
+  },
+  {
+    id: 65,
+    name: 'Семечки',
+    price: 8999,
+    category: 'snacks',
+    image: 'https://images.uzum.uz/ccvr00rb3ho5lmuq1ktg/original.jpg',
+    rating: 4.2
+  },
+  {
+    id: 66,
+    name: 'Сухарики',
+    price: 11999,
+    category: 'snacks',
+    image: 'https://magnumopt.kz/upload/resize_cache/iblock/1e8/450_450_140cd750bba9870f18aada2478b24840a/1e86ebdc05529f9b3e637137069f08cd.png',
+    rating: 4.1
+  },
+  {
+    id: 67,
+    name: 'Печенье Американское Шоколадное',
+    price: 15999,
+    category: 'bakery',
+    image: 'https://static.tildacdn.com/tild3165-3238-4231-a639-643437326265/1666259.jpg',
+    badge: 'sale',
+    oldPrice: 18999,
+    rating: 4.5
+  },
+  {
+    id: 68,
+    name: 'Шоколадный батончик',
+    price: 12999,
+    category: 'snacks',
+    image: 'https://static.sello.uz/unsafe/x500/https://static.sello.uz/fm/20231219/79b90b184ea6de4dafcf13265e81e73f.jpg',
+    rating: 4.6
+  },
+  {
+    id: 69,
+    name: 'Крекеры',
+    price: 17999,
+    category: 'snacks',
+    image: 'https://static.sello.uz/unsafe/x500/https://static.sello.uz/fm/20231219/fbd9ed4e640141663911e86ee44b2ac1.jpg',
+    rating: 4.3
+  },
+  {
+    id: 70,
+    name: 'Батончик мюсли',
+    price: 14999,
+    category: 'snacks',
+    image: 'https://ir.ozone.ru/s3/multimedia-a/c1000/6756245434.jpg',
+    rating: 4.4
+},
+{
+    id: 71,
+    name: 'Mr Beast',
+    price: 29999,
+    category: 'snacks',
+    image: 'https://m.media-amazon.com/images/I/61rXXviigEL._SL1500_.jpg',
+    badge: 'new',
+    rating: 4.9
+},
+{
+    id: 72,
+    name: 'Литр Енерджи (Классический)',
+    price: 14999,
+    category: 'drinks',
+    image: 'https://images.uzum.uz/cii1lbd40v9pplt58660/original.jpg',
+    badge: 'new',
+    rating: 4.9
+},
+{
+    id: 73,
+    name: 'Lit Energy Drink',
+    price: 17999,
+    category: 'drinks',
+    image: 'https://images.uzum.uz/cicpl0j6edfostihrac0/original.jpg',
+    badge: 'hot',
+    rating: 4.7
+}
+];
+
+// Остальной код остается без изменений
+// Cart State
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+// Initialize App
+function init() {
+  renderProducts();
+  updateCart();
+  setupEventListeners();
+  startHeroSlider();
+}
+function setupEventListeners() {
+  // Mobile Menu
+  mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+  
+  // Cart
+  cartBtn.addEventListener('click', openCart);
+  closeModal.addEventListener('click', closeCart);
+  continueShoppingBtn.addEventListener('click', closeCart);
+  checkoutBtn.addEventListener('click', checkout);
+  
+  // Filter Products
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => filterProducts(btn.dataset.category));
+  });
+  
+  // Newsletter
+  newsletterForm.addEventListener('submit', handleNewsletterSubmit);
+  
+  // Scroll Header Effect
+  window.addEventListener('scroll', handleScroll);
+}
+
+// Toggle Mobile Menu
+function toggleMobileMenu() {
+  navList.classList.toggle('active');
+  mobileMenuBtn.innerHTML = navList.classList.contains('active') ? 
+    '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+}
+
+// Render Products
+function renderProducts(category = 'all') {
+  productsContainer.innerHTML = '';
+  
+  const filteredProducts = category === 'all' 
+    ? products 
+    : products.filter(product => product.category === category);
+  
+  filteredProducts.forEach(product => {
+    const productEl = document.createElement('div');
+    productEl.className = 'product-card';
+    productEl.dataset.category = product.category;
+    
+    productEl.innerHTML = `
+      ${product.badge ? `<span class="product-badge ${product.badge}">${getBadgeText(product.badge)}</span>` : ''}
+      <img src="${product.image}" alt="${product.name}" class="product-img">
+      <div class="product-content">
+        <p class="product-category">${getCategoryName(product.category)}</p>
+        <h3 class="product-title">${product.name}</h3>
+        <div class="product-rating">
+          ${renderRating(product.rating)}
+        </div>
+        <div class="product-price">
+          <span class="current-price">${product.price.toLocaleString()} сум</span>
+          ${product.oldPrice ? `<span class="old-price">${product.oldPrice.toLocaleString()} сум</span>` : ''}
+        </div>
+        <button class="product-btn" data-id="${product.id}">
+          <i class="fas fa-shopping-cart"></i> Добавить в корзину
+        </button>
+      </div>
+    `;
+    
+    productsContainer.appendChild(productEl);
+  });
+  
+  // Add event listeners to "Add to Cart" buttons
+  document.querySelectorAll('.product-btn').forEach(btn => {
+    btn.addEventListener('click', () => addToCart(parseInt(btn.dataset.id)));
+  });
+}
+
+// Filter Products
+function filterProducts(category) {
+  filterBtns.forEach(btn => btn.classList.remove('active'));
+  // Добавляем active кнопке, которая вызвала фильтрацию
+  const activeBtn = Array.from(filterBtns).find(btn => btn.dataset.category === category);
+  if (activeBtn) activeBtn.classList.add('active');
+  
+  // Рендерим продукты с учетом фильтра
+  renderProducts(category);
+}
+
+// Add to Cart
+function addToCart(productId) {
+  const product = products.find(p => p.id === productId);
+  if (!product) return;
+  
+  const existingItem = cart.find(item => item.id === productId);
+  
+  if (existingItem) {
+    existingItem.quantity++;
+  } else {
+    cart.push({
+      ...product,
+      quantity: 1
+    });
+  }
+  
+  updateCart();
+  showAddToCartFeedback(productId);
+}
+
+// Show Add to Cart Feedback
+function showAddToCartFeedback(productId) {
+  const btn = document.querySelector(`.product-btn[data-id="${productId}"]`);
+  if (!btn) return;
+  
+  btn.innerHTML = '<i class="fas fa-check"></i> Добавлено';
+  btn.classList.add('added');
+  
+  setTimeout(() => {
+    btn.innerHTML = '<i class="fas fa-shopping-cart"></i> Добавить в корзину';
+    btn.classList.remove('added');
+  }, 2000);
+}
+
+// Update Cart
+function updateCart() {
+  // Save to localStorage
+  localStorage.setItem('cart', JSON.stringify(cart));
+  
+  // Update cart count
+  const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+  cartCount.textContent = totalItems;
+  
+  // Update cart items
+  renderCartItems();
+  
+  // Update total price
+  updateTotalPrice();
+}
+
+// Render Cart Items
+function renderCartItems() {
+  if (cart.length === 0) {
+    cartItemsContainer.innerHTML = `
+      <div class="empty-cart">
+        <i class="fas fa-shopping-cart"></i>
+        <p>Ваша корзина пуста</p>
+        <button class="cart-btn btn-primary" onclick="closeCart()">Начать покупки</button>
+      </div>
+    `;
+    return;
+  }
+  
+  cartItemsContainer.innerHTML = '';
+  
+  cart.forEach(item => {
+    const cartItemEl = document.createElement('div');
+    cartItemEl.className = 'cart-item';
+    cartItemEl.innerHTML = `
+      <img src="${item.image}" alt="${item.name}" class="cart-item-img">
+      <p class="cart-item-name">${item.name}</p>
+      <p class="cart-item-price">${item.price.toLocaleString()} сум</p>
+      <div class="cart-item-quantity">
+        <button class="quantity-btn minus" data-id="${item.id}">-</button>
+        <input type="number" class="quantity-input" value="${item.quantity}" min="1" data-id="${item.id}">
+        <button class="quantity-btn plus" data-id="${item.id}">+</button>
+      </div>
+      <button class="remove-item" data-id="${item.id}"><i class="fas fa-times"></i></button>
+    `;
+    
+    cartItemsContainer.appendChild(cartItemEl);
+  });
+  
+  // Add event listeners to quantity buttons
+  document.querySelectorAll('.quantity-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = parseInt(btn.dataset.id);
+      if (btn.classList.contains('minus')) {
+        decreaseQuantity(id);
+      } else {
+        increaseQuantity(id);
+      }
+    });
+  });
+  
+  // Add event listeners to quantity inputs
+  document.querySelectorAll('.quantity-input').forEach(input => {
+    input.addEventListener('change', () => {
+      const id = parseInt(input.dataset.id);
+      updateQuantity(id, parseInt(input.value));
+    });
+  });
+  
+  // Add event listeners to remove buttons
+  document.querySelectorAll('.remove-item').forEach(btn => {
+    btn.addEventListener('click', () => removeFromCart(parseInt(btn.dataset.id)));
+  });
+}
+
+// Update Quantity
+function updateQuantity(productId, newQuantity) {
+  if (newQuantity < 1) return;
+  
+  const item = cart.find(item => item.id === productId);
+  if (item) {
+    item.quantity = newQuantity;
+    updateCart();
+  }
+}
+
+// Increase Quantity
+function increaseQuantity(productId) {
+  const item = cart.find(item => item.id === productId);
+  if (item) {
+    item.quantity++;
+    updateCart();
+  }
+}
+
+// Decrease Quantity
+function decreaseQuantity(productId) {
+  const item = cart.find(item => item.id === productId);
+  if (item) {
+    if (item.quantity > 1) {
+      item.quantity--;
+    } else {
+      removeFromCart(productId);
+    }
+    updateCart();
+  }
+}
+
+// Remove From Cart
+function removeFromCart(productId) {
+  cart = cart.filter(item => item.id !== productId);
+  updateCart();
+}
+
+// Update Total Price
+function updateTotalPrice() {
+  const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  totalPrice.textContent = total.toLocaleString();
+}
+
+// Open Cart
+function openCart() {
+  cartModal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+// Close Cart
+function closeCart() {
+  cartModal.classList.remove('active');
+  document.body.style.overflow = 'auto';
+}
+
+// Checkout
+function checkout() {
+  if (cart.length === 0) {
+    alert('Ваша корзина пуста!');
+    return;
+  }
+  
+  // In a real app, you would send the order to a server here
+  alert(`Спасибо за заказ!\n\nИтого: ${totalPrice.textContent} сум`);
+  
+  // Clear cart
+  cart = [];
+  updateCart();
+  closeCart();
+}
+
+// Handle Newsletter Submit
+function handleNewsletterSubmit(e) {
+  e.preventDefault();
+  const email = e.target.querySelector('input').value;
+  
+  // In a real app, you would send this to a server
+  alert(`Спасибо за подписку! На адрес ${email} будут приходить наши новости.`);
+  e.target.reset();
+}
+
+// Handle Scroll
+function handleScroll() {
+  if (window.scrollY > 50) {
+    header.classList.add('scrolled');
+  } else {
+    header.classList.remove('scrolled');
+  }
+}
+
+// Start Hero Slider
+function startHeroSlider() {
+  let currentSlide = 0;
+  
+  setInterval(() => {
+    heroSlides[currentSlide].classList.remove('active');
+    heroDots[currentSlide].classList.remove('active');
+    
+    currentSlide = (currentSlide + 1) % heroSlides.length;
+    
+    heroSlides[currentSlide].classList.add('active');
+    heroDots[currentSlide].classList.add('active');
+  }, 5000);
+  
+  // Add click event to dots
+  heroDots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+      heroSlides[currentSlide].classList.remove('active');
+      heroDots[currentSlide].classList.remove('active');
+      
+      currentSlide = index;
+      
+      heroSlides[currentSlide].classList.add('active');
+      heroDots[currentSlide].classList.add('active');
+    });
+  });
+}
+
+// Helper Functions
+function getBadgeText(badge) {
+  const badges = {
+    new: 'Новинка',
+    sale: 'Акция',
+    hot: 'Хит'
+  };
+  return badges[badge] || '';
+}
+
+function getCategoryName(category) {
+  const categories = {
+    fruits: 'Фрукты',
+    vegetables: 'Овощи',
+    dairy: 'Молочные',
+    meat: 'Мясо',
+    bakery: 'Выпечка',
+    drinks: 'Напитки',
+    snacks: 'Снеки'
+  };
+  return categories[category] || '';
+}
+
+function renderRating(rating) {
+  let stars = '';
+  const fullStars = Math.floor(rating);
+  const hasHalfStar = rating % 1 >= 0.5;
+  
+  for (let i = 0; i < fullStars; i++) {
+    stars += '<i class="fas fa-star"></i>';
+  }
+  
+  if (hasHalfStar) {
+    stars += '<i class="fas fa-star-half-alt"></i>';
+  }
+  
+  for (let i = 0; i < 5 - Math.ceil(rating); i++) {
+    stars += '<i class="far fa-star"></i>';
+  }
+  
+  return stars + ` (${rating})`;
+}
+
+// Initialize the app
+document.addEventListener('DOMContentLoaded', init);
+
+
+// Setup Event Listeners
+function setupEventListeners() {
+  // Mobile Menu
+  mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+  
+  // Cart
+  cartBtn.addEventListener('click', openCart);
+  closeModal.addEventListener('click', closeCart);
+  continueShoppingBtn.addEventListener('click', closeCart);
+  checkoutBtn.addEventListener('click', checkout);
+  
+  // Filter Products
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => filterProducts(btn.dataset.category));
+  });
+  
+  // Newsletter
+  newsletterForm.addEventListener('submit', handleNewsletterSubmit);
+  
+  // Scroll Header Effect
+  window.addEventListener('scroll', handleScroll);
+}
+
+// Toggle Mobile Menu
+function toggleMobileMenu() {
+  navList.classList.toggle('active');
+  mobileMenuBtn.innerHTML = navList.classList.contains('active') ? 
+    '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+}
+
+// Render Products
+function renderProducts(category = 'all') {
+  productsContainer.innerHTML = '';
+  
+  const filteredProducts = category === 'all' 
+    ? products 
+    : products.filter(product => product.category === category);
+  
+  filteredProducts.forEach(product => {
+    const productEl = document.createElement('div');
+    productEl.className = 'product-card';
+    productEl.dataset.category = product.category;
+    
+    productEl.innerHTML = `
+      ${product.badge ? `<span class="product-badge ${product.badge}">${getBadgeText(product.badge)}</span>` : ''}
+      <img src="${product.image}" alt="${product.name}" class="product-img">
+      <div class="product-content">
+        <p class="product-category">${getCategoryName(product.category)}</p>
+        <h3 class="product-title">${product.name}</h3>
+        <div class="product-rating">
+          ${renderRating(product.rating)}
+        </div>
+        <div class="product-price">
+          <span class="current-price">${product.price.toLocaleString()} сум</span>
+          ${product.oldPrice ? `<span class="old-price">${product.oldPrice.toLocaleString()} сум</span>` : ''}
+        </div>
+        <button class="product-btn" data-id="${product.id}">
+          <i class="fas fa-shopping-cart"></i> Добавить в корзину
+        </button>
+      </div>
+    `;
+    
+    productsContainer.appendChild(productEl);
+  });
+  
+  // Add event listeners to "Add to Cart" buttons
+  document.querySelectorAll('.product-btn').forEach(btn => {
+    btn.addEventListener('click', () => addToCart(parseInt(btn.dataset.id)));
+  });
+}
+
+// Filter Products
+function filterProducts(category) {
+  filterBtns.forEach(btn => btn.classList.remove('active'));
+  // Добавляем active кнопке, которая вызвала фильтрацию
+  const activeBtn = Array.from(filterBtns).find(btn => btn.dataset.category === category);
+  if (activeBtn) activeBtn.classList.add('active');
+  
+  // Рендерим продукты с учетом фильтра
+  renderProducts(category);
+}
+
+// Add to Cart
+function addToCart(productId) {
+  const product = products.find(p => p.id === productId);
+  if (!product) return;
+  
+  const existingItem = cart.find(item => item.id === productId);
+  
+  if (existingItem) {
+    existingItem.quantity++;
+  } else {
+    cart.push({
+      ...product,
+      quantity: 1
+    });
+  }
+  
+  updateCart();
+  showAddToCartFeedback(productId);
+}
+
+// Show Add to Cart Feedback
+function showAddToCartFeedback(productId) {
+  const btn = document.querySelector(`.product-btn[data-id="${productId}"]`);
+  if (!btn) return;
+  
+  btn.innerHTML = '<i class="fas fa-check"></i> Добавлено';
+  btn.classList.add('added');
+  
+  setTimeout(() => {
+    btn.innerHTML = '<i class="fas fa-shopping-cart"></i> Добавить в корзину';
+    btn.classList.remove('added');
+  }, 2000);
+}
+
+// Update Cart
+function updateCart() {
+  // Save to localStorage
+  localStorage.setItem('cart', JSON.stringify(cart));
+  
+  // Update cart count
+  const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+  cartCount.textContent = totalItems;
+  
+  // Update cart items
+  renderCartItems();
+  
+  // Update total price
+  updateTotalPrice();
+}
+
+// Render Cart Items
+function renderCartItems() {
+  if (cart.length === 0) {
+    cartItemsContainer.innerHTML = `
+      <div class="empty-cart">
+        <i class="fas fa-shopping-cart"></i>
+        <p>Ваша корзина пуста</p>
+        <button class="cart-btn btn-primary" onclick="closeCart()">Начать покупки</button>
+      </div>
+    `;
+    return;
+  }
+  
+  cartItemsContainer.innerHTML = '';
+  
+  cart.forEach(item => {
+    const cartItemEl = document.createElement('div');
+    cartItemEl.className = 'cart-item';
+    cartItemEl.innerHTML = `
+      <img src="${item.image}" alt="${item.name}" class="cart-item-img">
+      <p class="cart-item-name">${item.name}</p>
+      <p class="cart-item-price">${item.price.toLocaleString()} сум</p>
+      <div class="cart-item-quantity">
+        <button class="quantity-btn minus" data-id="${item.id}">-</button>
+        <input type="number" class="quantity-input" value="${item.quantity}" min="1" data-id="${item.id}">
+        <button class="quantity-btn plus" data-id="${item.id}">+</button>
+      </div>
+      <button class="remove-item" data-id="${item.id}"><i class="fas fa-times"></i></button>
+    `;
+    
+    cartItemsContainer.appendChild(cartItemEl);
+  });
+  
+  // Add event listeners to quantity buttons
+  document.querySelectorAll('.quantity-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = parseInt(btn.dataset.id);
+      if (btn.classList.contains('minus')) {
+        decreaseQuantity(id);
+      } else {
+        increaseQuantity(id);
+      }
+    });
+  });
+  
+  // Add event listeners to quantity inputs
+  document.querySelectorAll('.quantity-input').forEach(input => {
+    input.addEventListener('change', () => {
+      const id = parseInt(input.dataset.id);
+      updateQuantity(id, parseInt(input.value));
+    });
+  });
+  
+  // Add event listeners to remove buttons
+  document.querySelectorAll('.remove-item').forEach(btn => {
+    btn.addEventListener('click', () => removeFromCart(parseInt(btn.dataset.id)));
+  });
+}
+
+// Update Quantity
+function updateQuantity(productId, newQuantity) {
+  if (newQuantity < 1) return;
+  
+  const item = cart.find(item => item.id === productId);
+  if (item) {
+    item.quantity = newQuantity;
+    updateCart();
+  }
+}
+
+// Increase Quantity
+function increaseQuantity(productId) {
+  const item = cart.find(item => item.id === productId);
+  if (item) {
+    item.quantity++;
+    updateCart();
+  }
+}
+
+// Decrease Quantity
+function decreaseQuantity(productId) {
+  const item = cart.find(item => item.id === productId);
+  if (item) {
+    if (item.quantity > 1) {
+      item.quantity--;
+    } else {
+      removeFromCart(productId);
+    }
+    updateCart();
+  }
+}
+
+// Remove From Cart
+function removeFromCart(productId) {
+  cart = cart.filter(item => item.id !== productId);
+  updateCart();
+}
+
+// Update Total Price
+function updateTotalPrice() {
+  const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  totalPrice.textContent = total.toLocaleString();
+}
+
+// Open Cart
+function openCart() {
+  cartModal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+// Close Cart
+function closeCart() {
+  cartModal.classList.remove('active');
+  document.body.style.overflow = 'auto';
+}
+
+// Checkout
+function checkout() {
+  if (cart.length === 0) {
+    alert('Ваша корзина пуста!');
+    return;
+  }
+  
+  // In a real app, you would send the order to a server here
+  alert(`Спасибо за заказ!\n\nИтого: ${totalPrice.textContent} сум`);
+  
+  // Clear cart
+  cart = [];
+  updateCart();
+  closeCart();
+}
+
+// Handle Newsletter Submit
+function handleNewsletterSubmit(e) {
+  e.preventDefault();
+  const email = e.target.querySelector('input').value;
+  
+  // In a real app, you would send this to a server
+  alert(`Спасибо за подписку! На адрес ${email} будут приходить наши новости.`);
+  e.target.reset();
+}
+
+// Handle Scroll
+function handleScroll() {
+  if (window.scrollY > 50) {
+    header.classList.add('scrolled');
+  } else {
+    header.classList.remove('scrolled');
+  }
+}
+
+// Start Hero Slider
+function startHeroSlider() {
+  let currentSlide = 0;
+  
+  setInterval(() => {
+    heroSlides[currentSlide].classList.remove('active');
+    heroDots[currentSlide].classList.remove('active');
+    
+    currentSlide = (currentSlide + 1) % heroSlides.length;
+    
+    heroSlides[currentSlide].classList.add('active');
+    heroDots[currentSlide].classList.add('active');
+  }, 5000);
+  
+  // Add click event to dots
+  heroDots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+      heroSlides[currentSlide].classList.remove('active');
+      heroDots[currentSlide].classList.remove('active');
+      
+      currentSlide = index;
+      
+      heroSlides[currentSlide].classList.add('active');
+      heroDots[currentSlide].classList.add('active');
+    });
+  });
+}
+
+// Helper Functions
+function getBadgeText(badge) {
+  const badges = {
+    new: 'Новинка',
+    sale: 'Акция',
+    hot: 'Хит'
+  };
+  return badges[badge] || '';
+}
+
+function getCategoryName(category) {
+  const categories = {
+    fruits: 'Фрукты',
+    vegetables: 'Овощи',
+    dairy: 'Молочные',
+    meat: 'Мясо',
+    bakery: 'Выпечка',
+    drinks: 'Напитки',
+    snacks: 'Снеки'
+  };
+  return categories[category] || '';
+}
+
+function renderRating(rating) {
+  let stars = '';
+  const fullStars = Math.floor(rating);
+  const hasHalfStar = rating % 1 >= 0.5;
+  
+  for (let i = 0; i < fullStars; i++) {
+    stars += '<i class="fas fa-star"></i>';
+  }
+  
+  if (hasHalfStar) {
+    stars += '<i class="fas fa-star-half-alt"></i>';
+  }
+  
+  for (let i = 0; i < 5 - Math.ceil(rating); i++) {
+    stars += '<i class="far fa-star"></i>';
+  }
+  
+  return stars + ` (${rating})`;
+}
+
+// Initialize the app
+document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
