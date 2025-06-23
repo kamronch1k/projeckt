@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Большой HTML проект</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f0f0f0;
+        }
+
+        header, footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        nav {
+            background: #444;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav a {
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            background: #666;
+        }
+
+        .container {
+            display: flex;
+            margin: 20px;
+        }
+
+        main {
+            flex: 3;
+            margin-right: 20px;
+        }
+
+        aside {
+            flex: 1;
+            background: #ddd;
+            padding: 20px;
+        }
+
+        section {
+            background: white;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        .card {
+            background: #fafafa;
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+
+        .gallery img {
+            width: 30%;
+            margin: 1%;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.05);
+        }
+
+        form input, form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        form button {
+            padding: 10px 20px;
+            background: #333;
+            color: white;
+            border: none;
+        }
+
+        blockquote {
+            font-style: italic;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Мой HTML-проект</h1>
+    <p>Полноценный макет сайта на чистом HTML + CSS</p>
+</header>
+
+<nav>
+    <a href="#home">Главная</a>
+    <a href="#about">О нас</a>
+    <a href="#services">Услуги</a>
+    <a href="#gallery">Галерея</a>
+    <a href="#blog">Блог</a>
+    <a href="#testimonials">Отзывы</a>
+    <a href="#contact">Контакты</a>
+</nav>
+
+<div class="container">
+    <main>
+        <section id="home">
+            <h2>Главная</h2>
+            <div class="card">
+                <p>Добро пожаловать на наш сайт! Мы рады видеть вас здесь.</p>
+            </div>
+        </section>
+
+        <section id="about">
+            <h2>О нас</h2>
+            <div class="card">
+                <p>Мы занимаемся веб-разработкой с 2010 года. Наша команда — профессионалы своего дела.</p>
+            </div>
+        </section>
+
+        <section id="services">
+            <h2>Услуги</h2>
+            <div class="card">
+                <ul>
+                    <li>Разработка сайтов</li>
+                    <li>UX/UI-дизайн</li>
+                    <li>SEO-оптимизация</li>
+                    <li>Продвижение</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="gallery">
+            <h2>Галерея</h2>
+            <div class="card gallery">
+                <img src="https://via.placeholder.com/200" alt="Проект 1">
+                <img src="https://via.placeholder.com/200" alt="Проект 2">
+                <img src="https://via.placeholder.com/200" alt="Проект 3">
+            </div>
+        </section>
+
+        <section id="blog">
+            <h2>Блог</h2>
+            <div class="card">
+                <h3>Новый подход к веб-дизайну</h3>
+                <p>Современные сайты требуют адаптивности, скорости и эстетики. Мы рассказываем, как этого добиться.</p>
+            </div>
+        </section>
+
+        <section id="testimonials">
+            <h2>Отзывы</h2>
+            <div class="card">
+                <blockquote>“Отличная команда! Сайт сделали быстро и качественно.” — Мария</blockquote>
+            </div>
+            <div class="card">
+                <blockquote>“Мы довольны результатом. Всё работает безупречно.” — Иван</blockquote>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2>Связаться с нами</h2>
+            <div class="card">
+                <form>
+                    <input type="text" placeholder="Ваше имя" required>
+                    <input type="email" placeholder="Ваш email" required>
+                    <textarea rows="4" placeholder="Ваше сообщение"></textarea>
+                    <button type="submit">Отправить</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <aside>
+        <h2>Полезное</h2>
+        <p>Следите за нашими обновлениями и новыми статьями в блоге!</p>
+    </aside>
+</div>
+
+<footer>
+    <p>&copy; 2025 Мой проект. Все права защищены.</p>
+</footer>
+
+</body>
+</html>
